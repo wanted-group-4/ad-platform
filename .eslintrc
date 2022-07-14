@@ -5,7 +5,9 @@
   },
   "extends": [
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "airbnb",
+    "plugin:prettier/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -16,7 +18,8 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "quotes": ["error", "single", { "avoidEscape": true }],
+    "prettier/prettier": ["error"],
+    "quotes": ["error", "single", {"avoidEscape": true}],
     "@typescript-eslint/no-explicit-any": "off",
     "max-len": [
       2,

@@ -26,7 +26,6 @@ const LayoutContainer = styled.div`
   grid-template-areas:
     'sidebar header '
     'sidebar main ';
-  text-align: center;
   @media ${({theme}) => theme.size.mobile} {
     grid-template-rows: 70px 1fr;
     grid-template-columns: 1fr;

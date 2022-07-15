@@ -3,7 +3,7 @@ import {BrowserRouter} from 'react-router-dom';
 
 import Router from '@routes/Router';
 import GlobalStyle from '@styles/GlobalStyle';
-import Layout from '@components/layout/Layout';
+import {Layout} from '@components/layout';
 
 function App() {
   return (

@@ -1,9 +1,9 @@
 import React from 'react';
 import {BrowserRouter} from 'react-router-dom';
-import Layout from './components/layout/Layout';
 
-import Router from './routes/Router';
-import GlobalStyle from './styles/GlobalStyle';
+import Router from '@routes/Router';
+import GlobalStyle from '@styles/GlobalStyle';
+import Layout from '@components/layout/Layout';
 
 function App() {
   return (

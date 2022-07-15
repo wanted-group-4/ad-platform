@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import SideBar from './SideBar';
-import Header from './Header';
+import {SideBar, Header} from '@components/layout';
 
 interface LayoutProps {
   children: React.ReactNode;

@@ -11,6 +11,10 @@ const GlobalStyle = createGlobalStyle`
   button {
     cursor: pointer;
   }
+  body{
+    color: #4A4A4A;
+    background-color:#f5f7fb;
+  }
 `;
 
 export default GlobalStyle;

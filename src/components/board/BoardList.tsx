@@ -1,7 +1,7 @@
 import React from 'react';
 
-const BoardList = () => {
+function BoardList() {
   return <div>BoardList</div>;
-};
+}
 
 export default BoardList;

@@ -1,23 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Menu from './Menu';
+import SideBar from './SideBar';
 import Header from './Header';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+function Layout({children}: LayoutProps) {
   return (
     <>
       <Header />
-      <Menu />
+      <SideBar />
       <Main>{children}</Main>
     </>
   );
-};
-
-export default Layout;
+}
 
 const Main = styled.main``;
+
+export default Layout;

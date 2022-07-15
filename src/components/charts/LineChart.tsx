@@ -1,7 +1,7 @@
 import React from 'react';
 
-const LineChart = () => {
+function LineChart() {
   return <div>LineChart</div>;
-};
+}
 
 export default LineChart;

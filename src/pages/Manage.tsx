@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Manage = () => {
+function Manage() {
   return <div>Manage</div>;
-};
+}
 
 export default Manage;

@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Menu = () => {
+function SideBar() {
   return <div>Menu</div>;
-};
+}
 
-export default Menu;
+export default SideBar;

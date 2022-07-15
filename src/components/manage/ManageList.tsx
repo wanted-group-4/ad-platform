@@ -1,7 +1,7 @@
 import React from 'react';
 
-const ManageList = () => {
+function ManageList() {
   return <div>ManageList</div>;
-};
+}
 
 export default ManageList;

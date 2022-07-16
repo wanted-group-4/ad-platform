@@ -5,7 +5,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-function Header() {
+export default function Header() {
   return (
     <HeaderContainer>
       <IconContainer>
@@ -16,8 +16,6 @@ function Header() {
     </HeaderContainer>
   );
 }
-
-export default Header;
 
 const HeaderContainer = styled.header`
   grid-area: header;

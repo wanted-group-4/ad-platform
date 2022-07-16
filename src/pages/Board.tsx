@@ -5,7 +5,7 @@ function Board() {
   return (
     <BoardContainer>
       <DashBoard>
-        <Title>대시보드</Title>
+        <Title DashBoard>대시보드</Title>
         <DateSelection>년/월/일</DateSelection>
       </DashBoard>
       <IntegrationAd>
@@ -35,7 +35,7 @@ const BoardContainer = styled.div`
   height: 170vh;
 `;
 const DashBoard = styled.div`
-  border: solid red 2px;
+  // border: solid red 2px;
   display: flex;
   height: 5.5vh;
   display: flex;
@@ -45,9 +45,9 @@ const IntegrationAd = styled.div`
   border: solid red 2px;
   height: 40vh;
   padding: 2rem;
-  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
 `;
 const CurrentStateOfAd = styled.div`
   border: solid red 2px;
@@ -55,12 +55,19 @@ const CurrentStateOfAd = styled.div`
   padding: 2rem;
   flex: 1 1 auto;
 `;
-const Title = styled.div`
-  width: 15%;
-  height: 1rem;
+const Title = styled.div<{DashBoard?: any}>`
+  width: ${props => (props.DashBoard ? '118px' : '')};
+  height: ${props => (props.DashBoard ? '46px' : '29px')};
+  font-size: ${props => (props.DashBoard ? '32px' : '20px')};
+  font-weight: 700;
+  color: #4a4a4a;
+  //border: solid red 2px;
+  position: relative;
+  left: ${props => (props.DashBoard ? '30px' : '')};
+  flex: 1 1 auto;
 `;
 const DateSelection = styled.div`
-  flex: 1 0 auto;
+  flex: 0.4 1 auto;
 `;
 const DataBox = styled.div`
   border: solid 2px black;

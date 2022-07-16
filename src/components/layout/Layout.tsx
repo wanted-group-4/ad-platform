@@ -7,7 +7,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-function Layout({children}: LayoutProps) {
+export default function Layout({children}: LayoutProps) {
   return (
     <LayoutContainer>
       <SideBar />
@@ -16,8 +16,6 @@ function Layout({children}: LayoutProps) {
     </LayoutContainer>
   );
 }
-
-export default Layout;
 
 const LayoutContainer = styled.div`
   display: grid;

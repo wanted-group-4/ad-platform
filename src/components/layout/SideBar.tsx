@@ -7,7 +7,7 @@ import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 
-function SideBar() {
+export default function SideBar() {
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
 
   const handelSideMenu = () => {
@@ -37,8 +37,6 @@ function SideBar() {
     </>
   );
 }
-
-export default SideBar;
 
 const SidebarContainer = styled.div<{sideMenuOpen: boolean}>`
   grid-area: sidebar;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function Board() {
+export default function Board() {
   return (
     <BoardContainer>
       <DashBoard>
@@ -25,8 +25,6 @@ function Board() {
     </BoardContainer>
   );
 }
-
-export default Board;
 
 const BoardContainer = styled.div`
   padding: 2rem;

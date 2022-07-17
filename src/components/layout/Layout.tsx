@@ -19,6 +19,9 @@ export default function Layout({children}: LayoutProps) {
 
 const LayoutContainer = styled.div`
   display: grid;
+  position: fixed;
+  width: 100%;
+  height: 100%;
   grid-template-rows: 70px 1fr;
   grid-template-columns: 250px 1fr;
   grid-template-areas:
@@ -35,4 +38,5 @@ const LayoutContainer = styled.div`
 
 const Main = styled.main`
   grid-area: main;
+  overflow-y: scroll;
 `;

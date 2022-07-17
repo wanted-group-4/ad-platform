@@ -1,7 +1,51 @@
-import React from 'react';
+/* eslint-disable no-constant-condition */
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import {getDay} from 'date-fns';
+import {IDailyAdStatus} from '@src/types/models/advertise';
 
 export default function Board() {
+  const [weekInfo, setWeekInfo] = useState<IDailyAdStatus[][]>([]);
+  useEffect(() => {
+    try {
+      axios.get('data/db.json').then(res => {
+        weeklyData(res.data.report.daily);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  function weeklyData(data: IDailyAdStatus[]) {
+    const all = [];
+    let result = [];
+    for (let i = 0; i < data.length; i += 1) {
+      const removeDash = data[i].date.split('-');
+      const findDay = getDay(
+        new Date(
+          Number(removeDash[0]),
+          Number(removeDash[1]),
+          Number(removeDash[2]),
+        ),
+      );
+      if (findDay === 1) {
+        result.push(data[i]);
+        result.push(data[i + 1]);
+        result.push(data[i + 2]);
+        result.push(data[i + 3]);
+        result.push(data[i + 4]);
+        result.push(data[i + 5]);
+        result.push(data[i + 6]);
+        i += 6;
+        all.push(result);
+      }
+      result = [];
+    }
+    setWeekInfo([...weekInfo, ...all]);
+  }
+  console.log(weekInfo);
+
   return (
     <BoardContainer>
       <DashBoard>
@@ -61,7 +105,7 @@ const Title = styled.div<{DashBoard?: any}>`
   color: #4a4a4a;
   //border: solid red 2px;
   position: relative;
-  left: ${props => (props.DashBoard ? '30px' : '')};
+  left: ${props => (props.DashBoard ? '30px' : '')}
   flex: 1 1 auto;
 `;
 const DateSelection = styled.div`

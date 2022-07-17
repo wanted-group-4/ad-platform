@@ -1,5 +1,6 @@
 import React from 'react';
 import {BrowserRouter} from 'react-router-dom';
+import {RecoilRoot} from 'recoil';
 
 import Router from '@routes/Router';
 import {GlobalStyle, theme} from '@styles/.';
@@ -9,12 +10,14 @@ import {ThemeProvider} from 'styled-components';
 export default function App() {
   return (
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Layout>
-          <Router />
-        </Layout>
-      </ThemeProvider>
+      <RecoilRoot>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <Layout>
+            <Router />
+          </Layout>
+        </ThemeProvider>
+      </RecoilRoot>
     </BrowserRouter>
   );
 }

@@ -4,8 +4,8 @@ const size = {
 
 const color = {
   black: '#4A4A4A',
-  grey_01: 'A3A3A3',
-  greay_02: '737678',
+  grey_01: '#A3A3A3',
+  greay_02: '#737678',
 };
 
 const background = {

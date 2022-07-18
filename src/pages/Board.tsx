@@ -1,26 +1,66 @@
-import React from 'react';
+import DropDown from '@src/components/dropdown/Select';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import styled from 'styled-components';
-// import axios from 'axios';
-// import {getDay} from 'date-fns';
-// import {IDailyAdStatus} from '@src/types/models/advertise';
-
+import {getDay, format, add} from 'date-fns';
+import {IDailyAdStatus} from '@src/types/models/advertise';
 import {reportState, channelState} from '../api/selectors';
 
 export default function Board() {
-  const date = '2022-02-01';
+  const [dateList, setDateList] = useState<any>([['0', '로딩중']]);
+  const [type, setType] = useState(['2022-02-07']);
+  const selectDate: string = type;
 
-  const weeklyReports = useRecoilValue(reportState(new Date(date)));
+  useEffect(() => {
+    try {
+      axios
+        .get('http://localhost:3001/daily')
+        .then(response => DateList(response.data))
+        .then(response => setDateList([...response]));
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  // 월요일을 찾아서 일주일 단위로 selectList를 보여주는 함수
+  function DateList(data: IDailyAdStatus[]) {
+    const result = [];
+    let count = 0;
+    for (let i = 0; i < data.length; i += 1) {
+      const removeDash = data[i].date;
+      const findDay = getDay(new Date(removeDash));
+      if (findDay === 1) {
+        const endDate = format(
+          add(new Date(data[i].date), {days: 6}),
+          'yyyy-MM-dd',
+        );
+        count += 1;
+        result.push([String(count), `${data[i].date}-${endDate}`]);
+        i += 6;
+      }
+    }
+    return result;
+  }
+  console.log('dateList', dateList);
+
+  const weeklyReports = useRecoilValue(reportState(new Date(selectDate)));
   console.log('weeklyReports', weeklyReports);
 
-  const weeklyChannels = useRecoilValue(channelState(new Date(date)));
+  const weeklyChannels = useRecoilValue(channelState(new Date(selectDate)));
   console.log('weeklyChannels', weeklyChannels);
+
+  const handleChange = () => {
+    setType(option[1].slice(0, 10));
+  };
 
   return (
     <BoardContainer>
       <DashBoard>
         <Title DashBoard>대시보드</Title>
-        <DateSelection>년/월/일</DateSelection>
+        <DateSelection>
+          <DropDown handleChange={handleChange} optionData={dateList} />
+        </DateSelection>
       </DashBoard>
       <IntegrationAd>
         <Title>통합 광고 현황</Title>

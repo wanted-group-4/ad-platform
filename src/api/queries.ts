@@ -20,6 +20,15 @@ async function getDataByDate(date: Date, category: string) {
   return response.data;
 }
 
+export const getAllReports = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/daily`);
+    return response.data;
+  } catch (error) {
+    return console.error(error);
+  }
+};
+
 export const getAdsList = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/ads?_sort=id&_order=desc`);

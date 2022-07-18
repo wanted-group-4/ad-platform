@@ -25,7 +25,6 @@ export default function Board() {
     fetchData();
   }, []);
 
-  // 월요일을 찾아서 일주일 단위로 selectList를 보여주는 함수
   function DateList(data: IDailyAdStatus[]) {
     const result = [];
     let count = -1;
@@ -57,30 +56,28 @@ export default function Board() {
   };
 
   return (
-    <Suspense>
-      <BoardContainer>
-        <DashBoard>
-          <Title DashBoard>대시보드</Title>
-          <DateSelection>
-            <DropDown handleChange={handleChange} optionData={dateList} />
-          </DateSelection>
-        </DashBoard>
-        <IntegrationAd>
-          <Title>통합 광고 현황</Title>
-          <DataBox>
-            <DataCard>데이터 카드 컴포넌트</DataCard>
-            <GraphChart>차트 컴포넌트</GraphChart>
-          </DataBox>
-        </IntegrationAd>
-        <CurrentStateOfAd>
-          <Title>매체 현황</Title>
-          <DataBox>
-            <BarChart>바 차트 컴포넌트</BarChart>
-            <Diagram> 표 컴포넌트</Diagram>
-          </DataBox>
-        </CurrentStateOfAd>
-      </BoardContainer>
-    </Suspense>
+    <BoardContainer>
+      <DashBoard>
+        <Title DashBoard>대시보드</Title>
+        <DateSelection>
+          <DropDown handleChange={handleChange} optionData={dateList} />
+        </DateSelection>
+      </DashBoard>
+      <IntegrationAd>
+        <Title>통합 광고 현황</Title>
+        <DataBox>
+          <DataCard>데이터 카드 컴포넌트</DataCard>
+          <GraphChart>차트 컴포넌트</GraphChart>
+        </DataBox>
+      </IntegrationAd>
+      <CurrentStateOfAd>
+        <Title>매체 현황</Title>
+        <DataBox>
+          <BarChart>바 차트 컴포넌트</BarChart>
+          <Diagram> 표 컴포넌트</Diagram>
+        </DataBox>
+      </CurrentStateOfAd>
+    </BoardContainer>
   );
 }
 

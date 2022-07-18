@@ -5,14 +5,6 @@ import styled from '@emotion/styled';
 import {reportState, channelState} from '../api/selectors';
 
 export default function Board() {
-  const date = '2022-02-01';
-
-  const weeklyReports = useRecoilValue(reportState(new Date(date)));
-  console.log('weeklyReports', weeklyReports);
-
-  const weeklyChannels = useRecoilValue(channelState(new Date(date)));
-  console.log('weeklyChannels', weeklyChannels);
-
   return (
     <BoardContainer>
       <DashBoard>

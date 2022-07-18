@@ -1,8 +1,13 @@
 import axios from 'axios';
-import {selectorFamily} from 'recoil';
+import {selectorFamily, atom} from 'recoil';
 import {add, format} from 'date-fns';
 
 const BASE_URL = 'http://localhost:3001';
+
+export const currentIDState = atom({
+  key: 'currentIDState',
+  default: -1,
+});
 
 export const reportState = selectorFamily({
   key: 'reportState',

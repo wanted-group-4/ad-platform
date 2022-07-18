@@ -1,3 +1,5 @@
+import {Theme} from '@emotion/react';
+
 const size = {
   mobile: '(max-width:480px)',
 };
@@ -30,7 +32,7 @@ const boxShadow = {
   modal: '10px 10px 30px rgba(0, 0, 0, 0.4)',
 };
 
-const theme = {
+const theme: Theme = {
   size,
   color,
   background,

@@ -1,8 +1,8 @@
-import {createGlobalStyle} from 'styled-components';
-import reset from 'styled-reset';
+import {css} from '@emotion/react';
+import emotionReset from 'emotion-reset';
 
-const GlobalStyle = createGlobalStyle`
-  ${reset} 
+const GlobalStyle = css`
+  ${emotionReset}
   * {
     box-sizing: border-box;
     outline: none;
@@ -11,9 +11,9 @@ const GlobalStyle = createGlobalStyle`
   button {
     cursor: pointer;
   }
-  body{
-    color: #4A4A4A;
-    background-color:#f5f7fb;
+  body {
+    color: #4a4a4a;
+    background-color: #f5f7fb;
   }
 `;
 

@@ -3,25 +3,14 @@ import axios from 'axios';
 import * as Charts from 'recharts';
 import {format, parseISO} from 'date-fns';
 import styled from '@emotion/styled';
-import DropDown from '@src/components/Select/DropDown';
+import DropDown from '@src/components/dropdown/DropDown';
+import {SelectChangeEvent} from '@mui/material';
 import {IDailyAdStatus} from '../../types/models/advertise';
-
-type AdStatusKey =
-  | 'roas'
-  | 'click'
-  | 'cost'
-  | 'conv'
-  | 'convValue'
-  | 'ctr'
-  | 'cvr'
-  | 'cpc'
-  | 'cpa'
-  | 'roas';
 
 export default function LineChart() {
   const [dbData, setDbData] = useState([]);
-  const [dataKey1, setDataKey] = useState<AdStatusKey>('roas');
-  const [dataKey2, setDataKey2] = useState<AdStatusKey>('click');
+  const [dataKey1, setDataKey] = useState<string>('roas');
+  const [dataKey2, setDataKey2] = useState<string>('click');
 
   const selectList = [
     ['imp', 'imp'],
@@ -35,7 +24,7 @@ export default function LineChart() {
     ['cpa', 'cpa'],
   ];
 
-  function getLinebyComparingeMax(line1: AdStatusKey, line2: AdStatusKey) {
+  function getLinebyComparingeMax(line1: string, line2: string) {
     const line1Data = dbData
       .map(dailyAdStatus => dailyAdStatus[line1])
       .sort((start, end) => end - start);
@@ -48,11 +37,13 @@ export default function LineChart() {
     return line1;
   }
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: SelectChangeEvent<string>) => {
+    event.stopPropagation();
     setDataKey(event?.target.value);
   };
 
-  const handleChange2 = (event: any) => {
+  const handleChange2 = (event: SelectChangeEvent<string>) => {
+    event.stopPropagation();
     setDataKey2(event?.target.value);
   };
 
@@ -75,6 +66,7 @@ export default function LineChart() {
     }
     getData();
   }, []);
+
   return (
     <Container>
       <DropwDownContainer>

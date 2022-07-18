@@ -3,6 +3,7 @@ import axios from 'axios';
 import * as Charts from 'recharts';
 import {format, parseISO} from 'date-fns';
 import styled from 'styled-components';
+import DropDown from '../DropDown';
 import {IDailyAdStatus} from '../../types/models/advertise';
 
 type AdStatusKey =
@@ -66,6 +67,10 @@ export default function LineChart() {
 
   return (
     <Container>
+      <DropwDownContainer>
+        <DropDown setDataKey={setDataKey} dataKey={dataKey1} />
+        <DropDown setDataKey={setDataKey2} dataKey={dataKey2} />
+      </DropwDownContainer>
       <Charts.ResponsiveContainer width="100%" height="100%">
         <Charts.LineChart
           margin={{left: 20}}
@@ -110,4 +115,9 @@ const Container = styled.div`
   border-radius: 5px;
   padding: 24px 25px;
   gap: 26.96px;
+`;
+
+const DropwDownContainer = styled.div`
+  display: flex;
+  gap: 14.23px;
 `;

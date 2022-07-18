@@ -5,24 +5,13 @@ import {format, parseISO} from 'date-fns';
 import styled from '@emotion/styled';
 import DropDown from '@src/components/dropdown/DropDown';
 import {SelectChangeEvent} from '@mui/material';
+import chartSelectTypeList from '@src/utils/chartSelectTypeList';
 import {IDailyAdStatus} from '../../types/models/advertise';
 
 export default function LineChart() {
   const [dbData, setDbData] = useState([]);
   const [dataKey1, setDataKey] = useState<string>('roas');
   const [dataKey2, setDataKey2] = useState<string>('click');
-
-  const selectList = [
-    ['imp', 'imp'],
-    ['click', 'click'],
-    ['cost', 'cost'],
-    ['conv', 'conv'],
-    ['convValue', 'convValue'],
-    ['ctr', 'ctr'],
-    ['cvr', 'cvr'],
-    ['cpc', 'cpc'],
-    ['cpa', 'cpa'],
-  ];
 
   function getLinebyComparingeMax(line1: string, line2: string) {
     const line1Data = dbData
@@ -70,8 +59,14 @@ export default function LineChart() {
   return (
     <Container>
       <DropwDownContainer>
-        <DropDown handleChange={handleChange} optionData={selectList} />
-        <DropDown handleChange={handleChange2} optionData={selectList} />
+        <DropDown
+          handleChange={handleChange}
+          optionData={chartSelectTypeList}
+        />
+        <DropDown
+          handleChange={handleChange2}
+          optionData={chartSelectTypeList}
+        />
       </DropwDownContainer>
       <Charts.ResponsiveContainer width="100%" height="100%">
         <Charts.LineChart

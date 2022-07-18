@@ -1,12 +1,14 @@
-/* eslint-disable no-constant-condition */
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import {getDay} from 'date-fns';
 import {IDailyAdStatus} from '@src/types/models/advertise';
+import DropDown from '@src/components/dropdown/Select';
+import {SelectChangeEvent} from '@mui/material';
 
 export default function Board() {
-  const [weekInfo, setWeekInfo] = useState<IDailyAdStatus[][]>([]);
+  const [weeklyInfo, setWeeklyInfo] = useState<IDailyAdStatus[][]>([]);
+
   useEffect(() => {
     try {
       axios.get('data/db.json').then(res => {
@@ -30,27 +32,49 @@ export default function Board() {
         ),
       );
       if (findDay === 1) {
-        result.push(data[i]);
-        result.push(data[i + 1]);
-        result.push(data[i + 2]);
-        result.push(data[i + 3]);
-        result.push(data[i + 4]);
-        result.push(data[i + 5]);
-        result.push(data[i + 6]);
+        result.push(
+          data[i],
+          data[i + 1],
+          data[i + 2],
+          data[i + 3],
+          data[i + 4],
+          data[i + 5],
+          data[i + 6],
+        );
         i += 6;
         all.push(result);
       }
       result = [];
     }
-    setWeekInfo([...weekInfo, ...all]);
+    setWeeklyInfo([...weeklyInfo, ...all]);
   }
-  console.log(weekInfo);
+  const [type, setType] = useState<string>('all');
+  console.log(type);
+  console.log(weeklyInfo);
+
+  const setData = weeklyInfo.map((el, idx) => [
+    idx,
+    // `${el[1][0].date}-${el[1][6].date}`,
+    el,
+  ]);
+  console.log(setData);
+
+  const data = [
+    ['all', '전체광고'],
+    ['active', '진행광고'],
+    ['end', '종료된광고'],
+  ];
+  const handleChange = (event: SelectChangeEvent<string>) => {
+    setType(event.target.value);
+  };
 
   return (
     <BoardContainer>
       <DashBoard>
         <Title DashBoard>대시보드</Title>
-        <DateSelection>년/월/일</DateSelection>
+        <DateSelection>
+          <DropDown handleChange={handleChange} optionData={data} />
+        </DateSelection>
       </DashBoard>
       <IntegrationAd>
         <Title>통합 광고 현황</Title>
@@ -105,7 +129,7 @@ const Title = styled.div<{DashBoard?: any}>`
   color: #4a4a4a;
   //border: solid red 2px;
   position: relative;
-  left: ${props => (props.DashBoard ? '30px' : '')}
+  left: ${props => (props.DashBoard ? '30px' : '')};
   flex: 1 1 auto;
 `;
 const DateSelection = styled.div`

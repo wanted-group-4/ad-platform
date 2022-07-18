@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import * as Charts from 'recharts';
 import {format, parseISO} from 'date-fns';
-import styled from 'styled-components';
-import DropDown from '../DropDown';
+import styled from '@emotion/styled';
+import DropDown from '@src/components/Select/DropDown';
 import {IDailyAdStatus} from '../../types/models/advertise';
 
 type AdStatusKey =
@@ -23,6 +23,18 @@ export default function LineChart() {
   const [dataKey1, setDataKey] = useState<AdStatusKey>('roas');
   const [dataKey2, setDataKey2] = useState<AdStatusKey>('click');
 
+  const selectList = [
+    ['imp', 'imp'],
+    ['click', 'click'],
+    ['cost', 'cost'],
+    ['conv', 'conv'],
+    ['convValue', 'convValue'],
+    ['ctr', 'ctr'],
+    ['cvr', 'cvr'],
+    ['cpc', 'cpc'],
+    ['cpa', 'cpa'],
+  ];
+
   function getLinebyComparingeMax(line1: AdStatusKey, line2: AdStatusKey) {
     const line1Data = dbData
       .map(dailyAdStatus => dailyAdStatus[line1])
@@ -36,6 +48,14 @@ export default function LineChart() {
     return line1;
   }
 
+  const handleChange = (event: any) => {
+    setDataKey(event?.target.value);
+  };
+
+  const handleChange2 = (event: any) => {
+    setDataKey2(event?.target.value);
+  };
+
   useEffect(() => {
     async function getData() {
       await axios
@@ -44,16 +64,7 @@ export default function LineChart() {
           const newFormat = response.data.report.daily.map(
             (data: IDailyAdStatus) => {
               return {
-                imp: data.imp,
-                click: data.click,
-                cost: data.cost,
-                conv: data.conv,
-                convValue: data.convValue,
-                ctr: data.ctr,
-                cvr: data.cvr,
-                cpc: data.cpc,
-                cpa: data.cpa,
-                roas: data.roas,
+                ...data,
                 date: format(parseISO(data.date), 'MM월 dd일'),
               };
             },
@@ -64,12 +75,11 @@ export default function LineChart() {
     }
     getData();
   }, []);
-
   return (
     <Container>
       <DropwDownContainer>
-        <DropDown setDataKey={setDataKey} dataKey={dataKey1} />
-        <DropDown setDataKey={setDataKey2} dataKey={dataKey2} />
+        <DropDown handleChange={handleChange} optionData={selectList} />
+        <DropDown handleChange={handleChange2} optionData={selectList} />
       </DropwDownContainer>
       <Charts.ResponsiveContainer width="100%" height="100%">
         <Charts.LineChart

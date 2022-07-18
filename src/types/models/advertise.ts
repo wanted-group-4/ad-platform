@@ -9,7 +9,7 @@ export interface IDailyAdStatus {
   cpc: number;
   cpa: number;
   roas: number;
-  data: string;
+  date: string;
 }
 
 export interface IAdReport {

@@ -1,84 +1,72 @@
 import React from 'react';
-import {v4 as uuidv4} from 'uuid';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {useMutation, useQueryClient} from 'react-query';
+import styled from '@emotion/styled';
 
-import {IAds, IAdsUpdate} from '@src/types/models/management';
-import {adCreate, adUpdate, adDelete} from '@src/api/queries';
-import currentIDState from '@src/api/atom';
+import {IAds} from '@src/types/models/management';
+import {adItemList, changeDataForm} from '@src/utils';
+import {AdItem, Button} from './ad';
 
 interface ItemProps {
-  item: IAds;
+  ad: IAds;
 }
 
 export default function ManageItem(props: ItemProps) {
-  const {item} = props;
-  const queryClient = useQueryClient();
-  const currentID = useRecoilValue(currentIDState);
-  const setCurrentID = useSetRecoilState(currentIDState);
-  const addMutation = useMutation(adCreate, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['ads']);
-      setCurrentID(-1);
-    },
-  });
-  const updateMutation = useMutation(adUpdate, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['ads']);
-    },
-  });
-  const deleteMutation = useMutation(adDelete, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['ads']);
-    },
-  });
-  const handleModal = () => {
-    setCurrentID(item.id);
+  const {ad} = props;
+
+  const changeData = changeDataForm(ad);
+
+  const handleUpdateData = () => {
+    console.log('update');
   };
-  const handleSubmit = () => {
-    const newAd: IAds = {
-      id: +uuidv4(),
-      adType: 'app',
-      title: '광고',
-      budget: Math.floor(Math.random() * 10 ** 5),
-      status: 'active',
-      startDate: '2022-02-10T00:00:00',
-      endDate: null,
-      report: {
-        cost: 9300222,
-        convValue: 38234789,
-        roas: 411,
-      },
-    };
-    addMutation.mutate(newAd);
-  };
-  const handleUpdate = () => {
-    const newAd: IAdsUpdate = {
-      title: '수정된 제목입니다.',
-    };
-    updateMutation.mutate({currentID, newAd});
-  };
-  const handleDelete = () => {
-    deleteMutation.mutate(currentID);
+
+  const handleDeleteDate = () => {
+    console.log('delete');
   };
 
   return (
-    <div>
-      <p>{item.title}</p>
-      <p>{item.budget}</p>
-      <p>{item.status}</p>
-      <button type="button" onClick={handleModal}>
-        modal
-      </button>
-      <button type="button" onClick={handleSubmit}>
-        submit
-      </button>
-      <button type="button" onClick={handleUpdate}>
-        update
-      </button>
-      <button type="button" onClick={handleDelete}>
-        delete
-      </button>
-    </div>
+    <ManageItemContainer>
+      <AdCard>
+        <AdTitle>{ad.title}</AdTitle>
+        <AdItemList>
+          {adItemList.map((item, index) => (
+            <AdItem title={item} data={changeData[index]} key={item} />
+          ))}
+        </AdItemList>
+        <ButtonWrap>
+          <Button onClick={handleUpdateData}>수정</Button>
+          <Button onClick={handleDeleteDate}>삭제</Button>
+        </ButtonWrap>
+      </AdCard>
+    </ManageItemContainer>
   );
 }
+
+const ButtonWrap = styled.div`
+  display: flex;
+  justify-content: right;
+  button {
+    margin-left: 20px;
+  }
+`;
+
+const ManageItemContainer = styled.div`
+  margin-bottom: 30px;
+`;
+
+const AdCard = styled.div`
+  width: 350px;
+  height: 500px;
+  background: #ffffff;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  padding: 30px;
+`;
+
+const AdTitle = styled.h1`
+  font-weight: 700;
+  font-size: 24px;
+  padding-bottom: 50px;
+`;
+
+const AdItemList = styled.div`
+  margin-bottom: 40px;
+`;

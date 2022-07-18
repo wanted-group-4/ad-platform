@@ -1,38 +1,36 @@
 import React from 'react';
 import {useQuery} from 'react-query';
-import {useRecoilValue} from 'recoil';
+import styled from '@emotion/styled';
 
-import {currentIDState} from '@src/api/selectors';
 import {IAds} from '../../types/models/management';
-import {getAdsList, getAdItem} from '../../api/queries';
+import {getAdsList} from '../../api/queries';
 import ManageItem from './ManageItem';
 
 export default function ManageList() {
-  const currentID = useRecoilValue(currentIDState);
-  const {isLoading, isError, data, error} = useQuery<
-    boolean,
-    boolean,
-    IAds[],
-    [string]
-  >(['ads'], getAdsList);
-  const {data: modal} = useQuery<IAds, [string, number]>(['ad'], () =>
-    getAdItem(currentID),
-  );
+  const {isLoading, data} = useQuery<IAds[]>(['ads'], getAdsList);
 
   return (
     <>
-      <h1>currentID: {currentID}</h1>
-      {currentID !== -1 && modal && <ManageItem item={modal} />}
-      {!isLoading &&
-        (isError ? (
-          <div>{error}</div>
-        ) : (
-          <div>
-            {data?.map(item => (
-              <ManageItem key={item.id} item={item} />
-            ))}
-          </div>
-        ))}
+      {/* <h1>currentID: {currentID}</h1> */}
+      {/* {currentID !== -1 && modal && <ManageItem item={modal} />} */}
+      {!isLoading && (
+        <ManageListContainer>
+          {data?.map((ad: IAds) => (
+            <ManageItem ad={ad} key={ad.id} />
+          ))}
+        </ManageListContainer>
+      )}
     </>
   );
 }
+
+const ManageListContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30px 0;
+  justify-content: space-between;
+  @media ${({theme}) => theme.size.mobile} {
+    width: 360px;
+    margin: 0 auto;
+  }
+`;

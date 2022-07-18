@@ -2,7 +2,7 @@ import React from 'react';
 import {useQuery} from 'react-query';
 import {useRecoilValue} from 'recoil';
 
-import {currentIDState} from '@src/api/selectors';
+import currentIDState from '@src/api/atom';
 import {IAds} from '../../types/models/management';
 import {getAdsList, getAdItem} from '../../api/queries';
 import ManageItem from './ManageItem';
@@ -15,7 +15,7 @@ export default function ManageList() {
     IAds[],
     [string]
   >(['ads'], getAdsList);
-  const {data: modal} = useQuery<IAds, [string, number]>(['ad'], () =>
+  const {data: modal} = useQuery<IAds, [string, number]>(['ads'], () =>
     getAdItem(currentID),
   );
 

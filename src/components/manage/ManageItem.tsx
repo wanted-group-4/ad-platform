@@ -1,11 +1,11 @@
 import React from 'react';
 import {v4 as uuidv4} from 'uuid';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {useMutation} from 'react-query';
-import {IAds, IAdsUpdate} from '@src/types/models/management';
+import {useMutation, useQueryClient} from 'react-query';
 
+import {IAds, IAdsUpdate} from '@src/types/models/management';
 import {adCreate, adUpdate, adDelete} from '@src/api/queries';
-import {currentIDState} from '../../api/selectors';
+import currentIDState from '@src/api/atom';
 
 interface ItemProps {
   item: IAds;
@@ -13,11 +13,25 @@ interface ItemProps {
 
 export default function ManageItem(props: ItemProps) {
   const {item} = props;
+  const queryClient = useQueryClient();
   const currentID = useRecoilValue(currentIDState);
   const setCurrentID = useSetRecoilState(currentIDState);
-  const addMutation = useMutation(adCreate);
-  const updateMutation = useMutation(adUpdate);
-  const deleteMutation = useMutation(adDelete);
+  const addMutation = useMutation(adCreate, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['ads']);
+      setCurrentID(-1);
+    },
+  });
+  const updateMutation = useMutation(adUpdate, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['ads']);
+    },
+  });
+  const deleteMutation = useMutation(adDelete, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['ads']);
+    },
+  });
   const handleModal = () => {
     setCurrentID(item.id);
   };
@@ -40,7 +54,7 @@ export default function ManageItem(props: ItemProps) {
   };
   const handleUpdate = () => {
     const newAd: IAdsUpdate = {
-      title: '광고',
+      title: '수정된 제목입니다.',
     };
     updateMutation.mutate({currentID, newAd});
   };

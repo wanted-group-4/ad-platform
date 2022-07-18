@@ -1,8 +1,8 @@
 import React from 'react';
-import {useRecoilValue} from 'recoil';
+// import {useRecoilValue} from 'recoil';
 import styled from '@emotion/styled';
 
-import {reportState, channelState} from '../api/selectors';
+// import {reportState, channelState} from '../api/selectors';
 
 export default function Board() {
   return (

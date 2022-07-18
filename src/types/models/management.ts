@@ -12,7 +12,9 @@ export interface IAds {
   status: string;
   startDate: string;
   endDate: null | string;
-  report: IReport;
+  report: {
+    [key: string]: number;
+  };
 }
 
 export interface IAdsUpdate {

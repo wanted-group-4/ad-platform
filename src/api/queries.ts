@@ -7,7 +7,7 @@ const BASE_URL = 'http://localhost:3001';
 
 export const getAdsList = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/ads`);
+    const response = await axios.get(`${BASE_URL}/ads?_sort=id&_order=desc`);
     return response.data;
   } catch (error) {
     return console.error(error);
@@ -42,7 +42,11 @@ export const adUpdate = async ({
 }) => {
   if (currentID === -1) return;
   try {
-    const response = await axios.put(`${BASE_URL}/ads/${currentID}`, newAd);
+    const prevAd = await getAdItem(currentID);
+    const response = await axios.put(`${BASE_URL}/ads/${currentID}`, {
+      ...prevAd,
+      ...newAd,
+    });
     if (response.status !== 200) throw Error;
   } catch (error) {
     console.error(error);

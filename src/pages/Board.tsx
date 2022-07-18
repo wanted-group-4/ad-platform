@@ -2,7 +2,7 @@ import DropDown from '@src/components/dropdown/Select';
 import axios from 'axios';
 import React, {Suspense, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {getDay, format, add} from 'date-fns';
 import {IDailyAdStatus} from '@src/types/models/advertise';
 import {SelectChangeEvent} from '@mui/material';

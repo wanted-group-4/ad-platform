@@ -1,21 +1,29 @@
-export interface IAdManageReport {
-  cost: string;
+export interface IReport {
+  cost: number;
   convValue: number;
   roas: number;
 }
 
-export interface IAdManageAds {
+export interface IAds {
   id: number;
   adType: string;
   title: string;
   budget: number;
   status: string;
-  startData: string;
-  endData: null;
-  report: IAdManagement;
+  startDate: string;
+  endDate: null | string;
+  report: {
+    [key: string]: number;
+  };
 }
 
-export interface IAdManagement {
-  count: number;
-  ads: IAdManageAds[];
+export interface IAdsUpdate {
+  id?: number;
+  adType?: string;
+  title?: string;
+  budget?: number;
+  status?: string;
+  startDate?: string;
+  endDate?: null | string;
+  report?: IReport;
 }

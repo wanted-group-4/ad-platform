@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+// eslint-disable-next-line import/no-extraneous-dependencies
 const {override, addWebpackAlias} = require('customize-cra');
 const path = require('path');
 

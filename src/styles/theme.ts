@@ -1,11 +1,13 @@
+import {Theme} from '@emotion/react';
+
 const size = {
   mobile: '(max-width:480px)',
 };
 
 const color = {
   black: '#4A4A4A',
-  grey_01: 'A3A3A3',
-  greay_02: '737678',
+  grey_01: '#A3A3A3',
+  greay_02: '#737678',
 };
 
 const background = {
@@ -30,7 +32,7 @@ const boxShadow = {
   modal: '10px 10px 30px rgba(0, 0, 0, 0.4)',
 };
 
-const theme = {
+const theme: Theme = {
   size,
   color,
   background,

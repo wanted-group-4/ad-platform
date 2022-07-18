@@ -1,50 +1,20 @@
-/* eslint-disable no-constant-condition */
-import React, {useEffect, useState} from 'react';
+import React from 'react';
+import {useRecoilValue} from 'recoil';
 import styled from 'styled-components';
-import axios from 'axios';
-import {getDay} from 'date-fns';
-import {IDailyAdStatus} from '@src/types/models/advertise';
+// import axios from 'axios';
+// import {getDay} from 'date-fns';
+// import {IDailyAdStatus} from '@src/types/models/advertise';
+
+import {reportState, channelState} from '../api/selectors';
 
 export default function Board() {
-  const [weekInfo, setWeekInfo] = useState<IDailyAdStatus[][]>([]);
-  useEffect(() => {
-    try {
-      axios.get('data/db.json').then(res => {
-        weeklyData(res.data.report.daily);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  const date = '2022-02-01';
 
-  function weeklyData(data: IDailyAdStatus[]) {
-    const all = [];
-    let result = [];
-    for (let i = 0; i < data.length; i += 1) {
-      const removeDash = data[i].date.split('-');
-      const findDay = getDay(
-        new Date(
-          Number(removeDash[0]),
-          Number(removeDash[1]),
-          Number(removeDash[2]),
-        ),
-      );
-      if (findDay === 1) {
-        result.push(data[i]);
-        result.push(data[i + 1]);
-        result.push(data[i + 2]);
-        result.push(data[i + 3]);
-        result.push(data[i + 4]);
-        result.push(data[i + 5]);
-        result.push(data[i + 6]);
-        i += 6;
-        all.push(result);
-      }
-      result = [];
-    }
-    setWeekInfo([...weekInfo, ...all]);
-  }
-  console.log(weekInfo);
+  const weeklyReports = useRecoilValue(reportState(new Date(date)));
+  console.log('weeklyReports', weeklyReports);
+
+  const weeklyChannels = useRecoilValue(channelState(new Date(date)));
+  console.log('weeklyChannels', weeklyChannels);
 
   return (
     <BoardContainer>
@@ -105,7 +75,7 @@ const Title = styled.div<{DashBoard?: any}>`
   color: #4a4a4a;
   //border: solid red 2px;
   position: relative;
-  left: ${props => (props.DashBoard ? '30px' : '')}
+  left: ${props => (props.DashBoard ? '30px' : '')};
   flex: 1 1 auto;
 `;
 const DateSelection = styled.div`

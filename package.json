@@ -32,7 +32,7 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "react-app-rewired start & yarn run server",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"

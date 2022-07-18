@@ -14,3 +14,14 @@ export interface IAds {
   endDate: null | string;
   report: IReport;
 }
+
+export interface IAdsUpdate {
+  id?: number;
+  adType?: string;
+  title?: string;
+  budget?: number;
+  status?: string;
+  startDate?: string;
+  endDate?: null | string;
+  report?: IReport;
+}

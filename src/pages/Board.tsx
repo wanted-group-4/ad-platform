@@ -1,35 +1,36 @@
 import DropDown from '@src/components/dropdown/Select';
 import axios from 'axios';
-import React, {useEffect, useState} from 'react';
+import React, {Suspense, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import styled from 'styled-components';
 import {getDay, format, add} from 'date-fns';
 import {IDailyAdStatus} from '@src/types/models/advertise';
+import {SelectChangeEvent} from '@mui/material';
 import {reportState, channelState} from '../api/selectors';
 
 export default function Board() {
-  const [dateList, setDateList] = useState<any>([['0', '로딩중']]);
-  const [type, setType] = useState(['2022-02-07']);
-  const selectDate: string = type;
+  const [dateList, setDateList] = useState<any>([]);
+  const [type, setType] = useState('2022-02-07');
 
   useEffect(() => {
-    try {
-      axios
-        .get('http://localhost:3001/daily')
-        .then(response => DateList(response.data))
-        .then(response => setDateList([...response]));
-    } catch (error) {
-      console.log(error);
-    }
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/daily');
+        const result = DateList(response.data);
+        setDateList(result);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
   }, []);
 
   // 월요일을 찾아서 일주일 단위로 selectList를 보여주는 함수
   function DateList(data: IDailyAdStatus[]) {
     const result = [];
-    let count = 0;
+    let count = -1;
     for (let i = 0; i < data.length; i += 1) {
-      const removeDash = data[i].date;
-      const findDay = getDay(new Date(removeDash));
+      const findDay = getDay(new Date(data[i].date));
       if (findDay === 1) {
         const endDate = format(
           add(new Date(data[i].date), {days: 6}),
@@ -42,41 +43,44 @@ export default function Board() {
     }
     return result;
   }
-  console.log('dateList', dateList);
 
-  const weeklyReports = useRecoilValue(reportState(new Date(selectDate)));
-  console.log('weeklyReports', weeklyReports);
+  const weeklyReports = useRecoilValue(reportState(new Date(type)));
+  console.log(': weeklyReports ', weeklyReports);
 
-  const weeklyChannels = useRecoilValue(channelState(new Date(selectDate)));
+  const weeklyChannels = useRecoilValue(channelState(new Date(type)));
   console.log('weeklyChannels', weeklyChannels);
 
-  const handleChange = () => {
-    setType(option[1].slice(0, 10));
+  const handleChange = (event: SelectChangeEvent<string>) => {
+    const index = Number(event.target.value);
+    const changeType = dateList[index][1].slice(0, 10);
+    setType(String(changeType));
   };
 
   return (
-    <BoardContainer>
-      <DashBoard>
-        <Title DashBoard>대시보드</Title>
-        <DateSelection>
-          <DropDown handleChange={handleChange} optionData={dateList} />
-        </DateSelection>
-      </DashBoard>
-      <IntegrationAd>
-        <Title>통합 광고 현황</Title>
-        <DataBox>
-          <DataCard>데이터 카드 컴포넌트</DataCard>
-          <GraphChart>차트 컴포넌트</GraphChart>
-        </DataBox>
-      </IntegrationAd>
-      <CurrentStateOfAd>
-        <Title>매체 현황</Title>
-        <DataBox>
-          <BarChart>바 차트 컴포넌트</BarChart>
-          <Diagram> 표 컴포넌트</Diagram>
-        </DataBox>
-      </CurrentStateOfAd>
-    </BoardContainer>
+    <Suspense>
+      <BoardContainer>
+        <DashBoard>
+          <Title DashBoard>대시보드</Title>
+          <DateSelection>
+            <DropDown handleChange={handleChange} optionData={dateList} />
+          </DateSelection>
+        </DashBoard>
+        <IntegrationAd>
+          <Title>통합 광고 현황</Title>
+          <DataBox>
+            <DataCard>데이터 카드 컴포넌트</DataCard>
+            <GraphChart>차트 컴포넌트</GraphChart>
+          </DataBox>
+        </IntegrationAd>
+        <CurrentStateOfAd>
+          <Title>매체 현황</Title>
+          <DataBox>
+            <BarChart>바 차트 컴포넌트</BarChart>
+            <Diagram> 표 컴포넌트</Diagram>
+          </DataBox>
+        </CurrentStateOfAd>
+      </BoardContainer>
+    </Suspense>
   );
 }
 

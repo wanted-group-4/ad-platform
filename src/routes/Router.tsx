@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {lazy} from 'react';
 import {Routes, Route} from 'react-router-dom';
 
-import Board from '@pages/Board';
-import Manage from '@pages/Manage';
+const Board = lazy(() => import('@pages/Board'));
+const Manage = lazy(() => import('@pages/Manage'));
 
 export default function Router() {
   return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import {BrowserRouter} from 'react-router-dom';
 import {RecoilRoot} from 'recoil';
 
@@ -13,9 +13,11 @@ export default function App() {
       <RecoilRoot>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
-          <Layout>
-            <Router />
-          </Layout>
+          <Suspense fallback={<div>로딩중</div>}>
+            <Layout>
+              <Router />
+            </Layout>
+          </Suspense>
         </ThemeProvider>
       </RecoilRoot>
     </BrowserRouter>

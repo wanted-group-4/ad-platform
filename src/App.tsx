@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import {BrowserRouter} from 'react-router-dom';
 import {RecoilRoot} from 'recoil';
 
@@ -20,9 +20,11 @@ export default function App() {
         <MuiThemeProvider theme={MuiTheme}>
           <ThemeProvider theme={theme}>
             <Global styles={GlobalStyle} />
-            <Layout>
-              <Router />
-            </Layout>
+            <Suspense fallback={<div>로딩중</div>}>
+              <Layout>
+                <Router />
+              </Layout>
+            </Suspense>
           </ThemeProvider>
         </MuiThemeProvider>
       </RecoilRoot>

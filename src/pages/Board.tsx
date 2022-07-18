@@ -1,15 +1,67 @@
-import React from 'react';
-// import {useRecoilValue} from 'recoil';
+import DropDown from '@src/components/dropdown/Select';
+import axios from 'axios';
+import React, {Suspense, useEffect, useState} from 'react';
+import {useRecoilValue} from 'recoil';
 import styled from '@emotion/styled';
-
-// import {reportState, channelState} from '../api/selectors';
+import {getDay, format, add} from 'date-fns';
+import {IDailyAdStatus} from '@src/types/models/advertise';
+import {SelectChangeEvent} from '@mui/material';
+import {reportState, channelState} from '../api/selectors';
 
 export default function Board() {
+  const [dateList, setDateList] = useState<any>([]);
+  const [type, setType] = useState('2022-02-07');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/daily');
+        const result = DateList(response.data);
+        setDateList(result);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  function DateList(data: IDailyAdStatus[]) {
+    const result = [];
+    let count = -1;
+    for (let i = 0; i < data.length; i += 1) {
+      const findDay = getDay(new Date(data[i].date));
+      if (findDay === 1) {
+        const endDate = format(
+          add(new Date(data[i].date), {days: 6}),
+          'yyyy-MM-dd',
+        );
+        count += 1;
+        result.push([String(count), `${data[i].date}-${endDate}`]);
+        i += 6;
+      }
+    }
+    return result;
+  }
+
+  const weeklyReports = useRecoilValue(reportState(new Date(type)));
+  console.log(': weeklyReports ', weeklyReports);
+
+  const weeklyChannels = useRecoilValue(channelState(new Date(type)));
+  console.log('weeklyChannels', weeklyChannels);
+
+  const handleChange = (event: SelectChangeEvent<string>) => {
+    const index = Number(event.target.value);
+    const changeType = dateList[index][1].slice(0, 10);
+    setType(String(changeType));
+  };
+
   return (
     <BoardContainer>
       <DashBoard>
-        <Title>대시보드</Title>
-        <DateSelection>년/월/일</DateSelection>
+        <Title DashBoard>대시보드</Title>
+        <DateSelection>
+          <DropDown handleChange={handleChange} optionData={dateList} />
+        </DateSelection>
       </DashBoard>
       <IntegrationAd>
         <Title>통합 광고 현황</Title>
@@ -36,7 +88,7 @@ const BoardContainer = styled.div`
   height: 170vh;
 `;
 const DashBoard = styled.div`
-  border: solid red 2px;
+  // border: solid red 2px;
   display: flex;
   height: 5.5vh;
   display: flex;
@@ -46,9 +98,9 @@ const IntegrationAd = styled.div`
   border: solid red 2px;
   height: 40vh;
   padding: 2rem;
-  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
 `;
 const CurrentStateOfAd = styled.div`
   border: solid red 2px;
@@ -56,12 +108,19 @@ const CurrentStateOfAd = styled.div`
   padding: 2rem;
   flex: 1 1 auto;
 `;
-const Title = styled.div`
-  width: 15%;
-  height: 1rem;
+const Title = styled.div<{DashBoard?: any}>`
+  width: ${props => (props.DashBoard ? '118px' : '')};
+  height: ${props => (props.DashBoard ? '46px' : '29px')};
+  font-size: ${props => (props.DashBoard ? '32px' : '20px')};
+  font-weight: 700;
+  color: #4a4a4a;
+  //border: solid red 2px;
+  position: relative;
+  left: ${props => (props.DashBoard ? '30px' : '')};
+  flex: 1 1 auto;
 `;
 const DateSelection = styled.div`
-  flex: 1 0 auto;
+  flex: 0.4 1 auto;
 `;
 const DataBox = styled.div`
   border: solid 2px black;

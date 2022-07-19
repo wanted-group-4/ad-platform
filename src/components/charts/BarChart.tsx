@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-// import {IMediaStatus} from '@src/types/models/mediaStatus';
+import {IMediaStatus} from '@src/types/models/mediaStatus';
 
 export default function BarChart() {
   const [mediaStatus, setMediaStatus] = React.useState({
@@ -26,10 +26,11 @@ export default function BarChart() {
       await axios
         .get('/db.json')
         .then(response => {
-          const newMediaStatus = response.data.channels.reduce(
-            (acc: any, cur: any) => {
-              if (!acc[cur.channel]) {
-                acc[cur.channel] = {
+          const newData = response.data.channels;
+          const newMediaStatus = newData.reduce(
+            (acc: IMediaStatus, current: IMediaStatus) => {
+              if (!acc[current.channel]) {
+                acc[current.channel] = {
                   convValue: 0,
                   cost: 0,
                   imp: 0,
@@ -39,12 +40,12 @@ export default function BarChart() {
               }
               return {
                 ...acc,
-                [cur.channel]: {
-                  cost: acc[cur.channel].cost + cur.cost,
-                  convValue: acc[cur.channel].convValue + cur.convValue,
-                  imp: acc[cur.channel].imp + cur.imp,
-                  cvr: acc[cur.channel].cvr + cur.cvr,
-                  click: acc[cur.channel].click + cur.click,
+                [current.channel]: {
+                  cost: acc[current.channel].cost + current.cost,
+                  convValue: acc[current.channel].convValue + current.convValue,
+                  imp: acc[current.channel].imp + current.imp,
+                  cvr: acc[current.channel].cvr + current.cvr,
+                  click: acc[current.channel].click + current.click,
                 },
               };
             },
@@ -117,8 +118,13 @@ export default function BarChart() {
           ticks={[0.2, 0.4, 0.6, 0.8, 1]}
         />
         <Tooltip />
-        <Legend />
-        <BarGraph dataKey="facebook" stackId="media" fill="#8884d8" />
+        <Legend align="right" />
+        <BarGraph
+          dataKey="facebook"
+          stackId="media"
+          barSize={30}
+          fill="#8884d8"
+        />
         <BarGraph dataKey="naver" stackId="media" fill="#82ca9d" />
         <BarGraph dataKey="google" stackId="media" fill="#86304d" />
         <BarGraph dataKey="kakao" stackId="media" fill="#3d3f85" />

@@ -4,7 +4,7 @@ const adItemList: string[] = [
   '일 희망 예산',
   '광고수익률',
   '매출',
-  '광고비율',
+  '광고비용',
 ];
 
 export default adItemList;

@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {QueryClient, QueryClientProvider} from 'react-query';
 import {Button, SelectChangeEvent} from '@mui/material';
 import styled from '@emotion/styled';
 
@@ -8,7 +7,6 @@ import DropDown from '@src/components/dropdown/DropDown';
 import {adSelectTypeList} from '@src/utils';
 
 export default function Manage() {
-  const queryClient = new QueryClient();
   const [type, setType] = useState<string>('all');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -26,21 +24,19 @@ export default function Manage() {
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ManageContainer>
-        <Title>광고관리</Title>
-        <Wrap>
-          <DropDown
-            handleChange={handleTypeChange}
-            optionData={adSelectTypeList}
-          />
-          <Button variant="contained" onClick={handleCreateAd}>
-            광고만들기
-          </Button>
-        </Wrap>
-        <ManageList />
-      </ManageContainer>
-    </QueryClientProvider>
+    <ManageContainer>
+      <Title>광고관리</Title>
+      <Wrap>
+        <DropDown
+          handleChange={handleTypeChange}
+          optionData={adSelectTypeList}
+        />
+        <Button variant="contained" onClick={handleCreateAd}>
+          광고만들기
+        </Button>
+      </Wrap>
+      <ManageList />
+    </ManageContainer>
   );
 }
 

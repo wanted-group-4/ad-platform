@@ -1,13 +1,37 @@
 import axios from 'axios';
-// import {QueryClient} from 'react-query';
+import {add, format} from 'date-fns';
 
 import {IAds, IAdsUpdate} from '../types/models/management';
 
 const BASE_URL = 'http://localhost:3001';
 
+export const getReport = (date: Date) => getDataByDate(date, 'daily');
+export const getChannel = (date: Date) => getDataByDate(date, 'channels');
+
+async function getDataByDate(date: Date, category: string) {
+  const startDate = format(new Date(date), 'yyyy-MM-dd');
+  const endDate = format(add(new Date(startDate), {days: 6}), 'yyyy-MM-dd');
+  const response = await axios.get(
+    `${BASE_URL}/${category}?date_gte=${startDate}&date_lte=${endDate}`,
+  );
+  if (response.status !== 200) {
+    throw new Error(`[${response.status}] ${response.statusText}`);
+  }
+  return response.data;
+}
+
+export const getAllReports = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/daily`);
+    return response.data;
+  } catch (error) {
+    return console.error(error);
+  }
+};
+
 export const getAdsList = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/ads`);
+    const response = await axios.get(`${BASE_URL}/ads?_sort=id&_order=desc`);
     return response.data;
   } catch (error) {
     return console.error(error);
@@ -42,7 +66,11 @@ export const adUpdate = async ({
 }) => {
   if (currentID === -1) return;
   try {
-    const response = await axios.put(`${BASE_URL}/ads/${currentID}`, newAd);
+    const prevAd = await getAdItem(currentID);
+    const response = await axios.put(`${BASE_URL}/ads/${currentID}`, {
+      ...prevAd,
+      ...newAd,
+    });
     if (response.status !== 200) throw Error;
   } catch (error) {
     console.error(error);
@@ -58,25 +86,3 @@ export const adDelete = async (currentID: number) => {
     console.error(error);
   }
 };
-
-// const queryClient = new QueryClient();
-// queryClient.setMutationDefaults(['addAds'], {
-//   mutationFn: addAds,
-//   onMutate: async (variables: IAds) => {
-//     await queryClient.cancelQueries(['ads']);
-//     const optimisticAd: IAds = variables;
-//     queryClient.setQueryData(['ads'], (prev: any) => [...prev, optimisticAd]); // any
-//     return {optimisticAd};
-//   },
-//   onSuccess: (result, variables, context) => {
-//     queryClient.setQueryData(['ads'], (prev: any) =>
-//       prev.map((ad: IAds) => (ad.id === context.optimisticAd.id ? result : ad)),
-//     );
-//   },
-//   onError: (error, variables, context) => {
-//     queryClient.setQueryData(['ads'], (prev: any) =>
-//       prev.filter((ad: any) => ad.id !== context.optimisticAd.id),
-//     );
-//   },
-//   retry: 3,
-// });

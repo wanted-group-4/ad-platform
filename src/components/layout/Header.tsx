@@ -26,6 +26,7 @@ const HeaderContainer = styled.header`
   width: 100%;
   height: 70px;
   box-shadow: ${({theme}) => theme.boxShadow.board};
+  z-index: 2;
 `;
 const IconContainer = styled.div`
   display: flex;

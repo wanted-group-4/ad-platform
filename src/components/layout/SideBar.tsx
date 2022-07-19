@@ -52,6 +52,7 @@ const SidebarContainer = styled.div<{sideMenuOpen: boolean}>`
     transition: 0.4s;
     width: 200px;
   }
+  z-index: 4;
 `;
 const MenuIconWrap = styled.div`
   position: absolute;
@@ -62,6 +63,7 @@ const MenuIconWrap = styled.div`
     width: 30px;
     height: 30px;
   }
+  z-index: 4;
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -125,4 +127,5 @@ const SidebarCover = styled.div<{sideMenuOpen: boolean}>`
   @media ${({theme}) => theme.size.mobile} {
     display: ${({sideMenuOpen}) => (sideMenuOpen ? 'block' : 'none')};
   }
+  z-index: 4;
 `;

@@ -7,7 +7,7 @@ import {getAdsList} from '../../api/queries';
 import ManageItem from './ManageItem';
 
 export default function ManageList() {
-  const {isLoading, data} = useQuery<IAds[]>(['ads'], getAdsList);
+  const {isLoading, data} = useQuery<IAds[]>('ads', getAdsList);
 
   return (
     <>

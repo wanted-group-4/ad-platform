@@ -1,29 +1,38 @@
-import DropDown from '@src/components/dropdown/Select';
-import axios from 'axios';
-import React, {Suspense, useEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
+import React, {useState, useEffect} from 'react';
+import {useQueries, useQueryClient} from 'react-query';
 import styled from '@emotion/styled';
 import {getDay, format, add} from 'date-fns';
-import {IDailyAdStatus} from '@src/types/models/advertise';
 import {SelectChangeEvent} from '@mui/material';
-import {reportState, channelState} from '../api/selectors';
+
+import {getReport, getChannel, getAllReports} from '@src/api/queries';
+import DropDown from '@src/components/dropdown/Select';
+import {IDailyAdStatus} from '../types/models/advertise';
 
 export default function Board() {
+  const queryClient = useQueryClient();
   const [dateList, setDateList] = useState<any>([]);
   const [type, setType] = useState('2022-02-07');
+  const queryResult = useQueries([
+    {
+      queryKey: ['allReports'],
+      queryFn: getAllReports,
+    },
+    {
+      queryKey: ['report', type],
+      queryFn: () => getReport(new Date(type)),
+    },
+    {
+      queryKey: ['channel', type],
+      queryFn: () => getChannel(new Date(type)),
+    },
+  ]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/daily');
-        const result = DateList(response.data);
-        setDateList(result);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+  const handleChange = (event: SelectChangeEvent<string>) => {
+    const index = Number(event.target.value);
+    const changeType = dateList[index][1].slice(0, 10);
+    setType(String(changeType));
+    queryClient.invalidateQueries(type);
+  };
 
   function DateList(data: IDailyAdStatus[]) {
     const result = [];
@@ -43,17 +52,11 @@ export default function Board() {
     return result;
   }
 
-  const weeklyReports = useRecoilValue(reportState(new Date(type)));
-  console.log(': weeklyReports ', weeklyReports);
-
-  const weeklyChannels = useRecoilValue(channelState(new Date(type)));
-  console.log('weeklyChannels', weeklyChannels);
-
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    const index = Number(event.target.value);
-    const changeType = dateList[index][1].slice(0, 10);
-    setType(String(changeType));
-  };
+  useEffect(() => {
+    if (queryResult[0].isLoading || queryResult[0].isError || dateList.length)
+      return;
+    setDateList(() => [...DateList(queryResult[0].data)]);
+  }, [queryResult]);
 
   return (
     <BoardContainer>

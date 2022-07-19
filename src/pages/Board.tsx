@@ -73,7 +73,7 @@ export default function Board() {
         <Title>통합 광고 현황</Title>
         <DataBox>
           <DataCard>
-            <Card info={queryResult[1].data} />
+            <Card info={queryResult[1].data} type={type} />
           </DataCard>
           <GraphChart>차트 컴포넌트</GraphChart>
         </DataBox>

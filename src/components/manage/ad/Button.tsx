@@ -1,12 +1,12 @@
 import React from 'react';
 import {Button as StyledButton} from '@mui/material';
 
-interface ButtonProps {
+interface IButtonProps {
   children: React.ReactNode;
   onClick: () => void;
 }
 
-export default function Button({onClick, children}: ButtonProps) {
+export default function Button({onClick, children}: IButtonProps) {
   return (
     <StyledButton
       sx={{

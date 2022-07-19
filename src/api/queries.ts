@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {add, format} from 'date-fns';
 
-import {IAds, IAdsUpdate} from '../types/models/management';
+import {IAds} from '@src/types/models/management';
 
 const BASE_URL = 'http://localhost:3001';
 
@@ -62,7 +62,7 @@ export const adUpdate = async ({
   newAd,
 }: {
   currentID: number;
-  newAd: IAdsUpdate;
+  newAd: IAds;
 }) => {
   if (currentID === -1) return;
   try {

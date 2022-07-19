@@ -2,25 +2,22 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 import {IAds} from '@src/types/models/management';
-import {adItemList, changeDataForm} from '@src/utils';
-import {AdItem, Button} from './ad';
+import {adItemList, changeFormData} from '@src/utils';
+import {AdItem, Button} from '@src/components/manage/ad';
 
-interface ItemProps {
+interface IItemProps {
   ad: IAds;
+  /* eslint-disable no-unused-vars */
+  handleUpdateData: (id: number) => void;
+  handleDeleteData: (id: number) => void;
 }
 
-export default function ManageItem(props: ItemProps) {
-  const {ad} = props;
-
-  const changeData = changeDataForm(ad);
-
-  const handleUpdateData = () => {
-    console.log('update');
-  };
-
-  const handleDeleteDate = () => {
-    console.log('delete');
-  };
+export default function ManageItem({
+  ad,
+  handleUpdateData,
+  handleDeleteData,
+}: IItemProps) {
+  const changeData = changeFormData(ad);
 
   return (
     <ManageItemContainer>
@@ -32,24 +29,16 @@ export default function ManageItem(props: ItemProps) {
           ))}
         </AdItemList>
         <ButtonWrap>
-          <Button onClick={handleUpdateData}>수정</Button>
-          <Button onClick={handleDeleteDate}>삭제</Button>
+          <Button onClick={() => handleUpdateData(ad.id)}>수정</Button>
+          <Button onClick={() => handleDeleteData(ad.id)}>삭제</Button>
         </ButtonWrap>
       </AdCard>
     </ManageItemContainer>
   );
 }
 
-const ButtonWrap = styled.div`
-  display: flex;
-  justify-content: right;
-  button {
-    margin-left: 20px;
-  }
-`;
-
 const ManageItemContainer = styled.div`
-  margin-bottom: 30px;
+  margin: 0 1vw 30px 1vw;
 `;
 
 const AdCard = styled.div`
@@ -69,4 +58,12 @@ const AdTitle = styled.h1`
 
 const AdItemList = styled.div`
   margin-bottom: 40px;
+`;
+
+const ButtonWrap = styled.div`
+  display: flex;
+  justify-content: right;
+  button {
+    margin-left: 20px;
+  }
 `;

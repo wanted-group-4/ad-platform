@@ -17,13 +17,13 @@ export interface IAds {
   };
 }
 
-export interface IAdsUpdate {
-  id?: number;
-  adType?: string;
-  title?: string;
-  budget?: number;
-  status?: string;
-  startDate?: string;
-  endDate?: null | string;
-  report?: IReport;
+export interface IFormInput {
+  adType: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+  budget: number;
+  roas: number;
+  convValue: number;
+  cost: number;
 }

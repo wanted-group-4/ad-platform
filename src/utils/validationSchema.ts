@@ -7,7 +7,7 @@ const validationSchema = yup.object().shape({
     .required('제목을 입력해주세요')
     .min(2, '2자 이상 입력해주세요')
     .max(20, '20자 이하로 입력해주세요'),
-  startDate: yup.date().typeError('시작일을 지정은 필수입니다'),
+  startDate: yup.date().typeError('시작일을 지정은 필수 사항입니다'),
   endDate: yup
     .date()
     .when('startDate', (starDate, schema) => {

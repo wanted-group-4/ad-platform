@@ -3,7 +3,7 @@ import {format} from 'date-fns';
 import {IAds} from '@src/types/models/management';
 import {comma} from '@src/utils';
 
-const changeDataForm = (data: IAds) => {
+const changeFormData = (data: IAds) => {
   const date = new Date(data.startDate);
 
   return [
@@ -16,4 +16,4 @@ const changeDataForm = (data: IAds) => {
   ];
 };
 
-export default changeDataForm;
+export default changeFormData;

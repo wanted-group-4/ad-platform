@@ -10,6 +10,6 @@ module.exports = override(
     '@components': path.resolve(__dirname, 'src/components'),
     '@pages': path.resolve(__dirname, 'src/pages'),
     '@styles': path.resolve(__dirname, 'src/styles'),
-    '@types': path.resolve(__dirname, 'src/types'),
+    '@type': path.resolve(__dirname, 'src/types'),
   }),
 );

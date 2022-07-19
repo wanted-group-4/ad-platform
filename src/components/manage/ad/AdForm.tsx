@@ -7,7 +7,7 @@ import {useSetRecoilState} from 'recoil';
 import {useMutation, useQueryClient} from 'react-query';
 import {Alert} from '@mui/material';
 
-import {IAds, IFormInput} from '@src/types/models/management';
+import {IAds, IFormInput} from '@type/models/management';
 import {adCreate, adUpdate} from '@src/api/queries';
 import {createFormData, validationSchema, setValueFormDate} from '@src/utils';
 import currentIDState from '@src/api/atom';

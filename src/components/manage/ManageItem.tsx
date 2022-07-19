@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import {IAds} from '@src/types/models/management';
+import {IAds} from '@type/models/management';
 import {adItemList, changeFormData} from '@src/utils';
 import {AdItem, Button} from '@src/components/manage/ad';
 

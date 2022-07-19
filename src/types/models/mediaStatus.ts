@@ -1,11 +1,11 @@
 export interface IMediaStatus {
   channel: string;
-  data: string;
+  date?: string;
   imp: number;
   click: number;
   cost: number;
   convValue: number;
-  crt: number;
+  ctr: number;
   cpc: number;
   cpa: number;
   roas: number;

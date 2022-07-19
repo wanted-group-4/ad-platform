@@ -1,7 +1,5 @@
 import React from 'react';
 
-function BoardItem() {
+export default function BoardItem() {
   return <div>BoardItem</div>;
 }
-
-export default BoardItem;

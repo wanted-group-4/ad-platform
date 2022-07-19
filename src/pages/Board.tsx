@@ -3,6 +3,7 @@ import {useQueries, useQueryClient} from 'react-query';
 import styled from '@emotion/styled';
 import {getDay, format, add} from 'date-fns';
 import {SelectChangeEvent} from '@mui/material';
+import previousMonday from 'date-fns/previousMonday';
 
 import {getReport, getChannel, getAllReports} from '@src/api/queries';
 import DropDown from '@src/components/dropdown/Select';
@@ -62,6 +63,9 @@ export default function Board() {
   }, [queryResult]);
   const {isLoading} = queryResult[0];
 
+  const previousDay = previousMonday(new Date(type));
+  const changeType = format(new Date(previousDay), 'yyyy-MM-dd');
+
   return (
     <BoardContainer isLoading={isLoading}>
       <DashBoard>
@@ -74,7 +78,7 @@ export default function Board() {
         <Title>통합 광고 현황</Title>
         <DataBox>
           <DataCard>
-            <Card info={queryResult[1].data} type={type} />
+            <Card info={queryResult[1].data} type={changeType} />
           </DataCard>
           <GraphChart>차트 컴포넌트</GraphChart>
         </DataBox>

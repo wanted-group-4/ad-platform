@@ -1,7 +1,5 @@
 import React from 'react';
 
-function ManageItem() {
+export default function ManageItem() {
   return <div>ManageItem</div>;
 }
-
-export default ManageItem;

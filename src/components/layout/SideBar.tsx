@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {NavLink} from 'react-router-dom';
 
 import DvrIcon from '@mui/icons-material/Dvr';
@@ -7,7 +7,7 @@ import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 
-function SideBar() {
+export default function SideBar() {
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
 
   const handelSideMenu = () => {
@@ -38,8 +38,6 @@ function SideBar() {
   );
 }
 
-export default SideBar;
-
 const SidebarContainer = styled.div<{sideMenuOpen: boolean}>`
   grid-area: sidebar;
   position: relative;
@@ -47,7 +45,7 @@ const SidebarContainer = styled.div<{sideMenuOpen: boolean}>`
   left: 0;
   width: 250px;
   height: 100vh;
-  background: ${({theme}) => theme.background.sidebar};
+  background: ${props => props.theme.background.sidebar};
   @media ${({theme}) => theme.size.mobile} {
     position: absolute;
     left: ${({sideMenuOpen}) => (sideMenuOpen ? '0px' : '-250px')};

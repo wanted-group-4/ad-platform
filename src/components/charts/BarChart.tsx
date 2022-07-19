@@ -94,6 +94,7 @@ export default function BarChart({queryResult}: BarChartProps) {
     ]);
   }, [queryResult]);
 
+
   return (
     <ResponsiveContainer width="100%" height={400}>
       <BarChartGraph

@@ -4,7 +4,7 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import styled from '@emotion/styled';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useSetRecoilState} from 'recoil';
-import {QueryClient, useMutation} from 'react-query';
+import {useMutation, useQueryClient} from 'react-query';
 import {Alert} from '@mui/material';
 
 import {IAds, IFormInput} from '@src/types/models/management';
@@ -20,7 +20,7 @@ interface IAdFormProps {
 export default function AdForm({data, handleModalChange}: IAdFormProps) {
   const setCurrentID = useSetRecoilState(currentIDState);
 
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
 
   const addMutation = useMutation(adCreate, {
     onSuccess: () => queryClient.invalidateQueries('ads'),

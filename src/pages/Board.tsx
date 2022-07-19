@@ -7,7 +7,7 @@ import {SelectChangeEvent} from '@mui/material';
 import {getReport, getChannel, getAllReports} from '@src/api/queries';
 import DropDown from '@src/components/dropdown/Select';
 import Table from '@components/table/Table';
-import {BarChart as Bar} from '@src/components/charts/';
+import {BarChart as Bar, LineChart} from '@src/components/charts/';
 import Card from '@src/components/dataCard/card';
 import {IDailyAdStatus} from '../types/models/advertise';
 
@@ -75,7 +75,12 @@ export default function Board() {
           <DataCard>
             <Card info={queryResult[1].data} />
           </DataCard>
-          <GraphChart>차트 컴포넌트</GraphChart>
+          <GraphChart>
+            <LineChart
+              chartData={queryResult[1].data}
+              isLoading={queryResult[1].isLoading}
+            />
+          </GraphChart>
         </DataBox>
       </IntegrationAd>
       <CurrentStateOfAd>

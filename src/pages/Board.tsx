@@ -7,6 +7,7 @@ import {SelectChangeEvent} from '@mui/material';
 import {getReport, getChannel, getAllReports} from '@src/api/queries';
 import DropDown from '@src/components/dropdown/Select';
 import Table from '@components/table/Table';
+import {BarChart as Bar} from '@src/components/charts/';
 import {IDailyAdStatus} from '../types/models/advertise';
 
 export default function Board() {
@@ -77,7 +78,9 @@ export default function Board() {
       <CurrentStateOfAd>
         <Title>매체 현황</Title>
         <DataBox>
-          <BarChart>바 차트 컴포넌트</BarChart>
+          <BarChart>
+            <Bar queryResult={queryResult[2]} />
+          </BarChart>
           <Diagram>
             <Table queryResult={queryResult[2]} />
           </Diagram>

@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-interface AdItemProps {
+interface IAdItemProps {
   title: string;
   data: string | number;
 }
 
-export default function AdItem({title, data}: AdItemProps) {
+export default function AdItem({title, data}: IAdItemProps) {
   return (
     <AdItmeContainer>
       <AdItemTitle>{title}</AdItemTitle>

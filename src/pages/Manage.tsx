@@ -5,38 +5,43 @@ import styled from '@emotion/styled';
 import {ManageList} from '@src/components/manage';
 import DropDown from '@src/components/dropdown/DropDown';
 import {adSelectTypeList} from '@src/utils';
+import {AdModal} from '@src/components/manage/ad';
+import {useRecoilValue} from 'recoil';
+import currentIDState from '@src/api/atom';
 
 export default function Manage() {
   const [type, setType] = useState<string>('all');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+  const currentID = useRecoilValue(currentIDState);
+
   const handleTypeChange = (event: SelectChangeEvent<string>) => {
-    console.log(type);
     setType(event.target.value);
   };
 
-  // const handleModalChange = () => {
-  //   setIsModalOpen(!isModalOpen);
-  // };
-
-  const handleCreateAd = () => {
+  const handleModalChange = () => {
     setIsModalOpen(!isModalOpen);
   };
 
   return (
-    <ManageContainer>
-      <Title>광고관리</Title>
-      <Wrap>
-        <DropDown
-          handleChange={handleTypeChange}
-          optionData={adSelectTypeList}
-        />
-        <Button variant="contained" onClick={handleCreateAd}>
-          광고만들기
-        </Button>
-      </Wrap>
-      <ManageList />
-    </ManageContainer>
+    <>
+      {isModalOpen && (
+        <AdModal handleModalChange={handleModalChange} id={currentID} />
+      )}
+      <ManageContainer>
+        <Title>광고관리</Title>
+        <Wrap>
+          <DropDown
+            handleChange={handleTypeChange}
+            optionData={adSelectTypeList}
+          />
+          <Button variant="contained" onClick={handleModalChange}>
+            광고만들기
+          </Button>
+        </Wrap>
+        <ManageList type={type} handleModalChange={handleModalChange} />
+      </ManageContainer>
+    </>
   );
 }
 
@@ -61,6 +66,7 @@ const Wrap = styled.div`
 const ManageContainer = styled.div`
   padding: 50px 30px;
   position: relative;
+  z-index: 1;
 `;
 
 const Title = styled.h1`

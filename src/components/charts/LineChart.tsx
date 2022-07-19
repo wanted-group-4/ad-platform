@@ -41,14 +41,12 @@ export default function LineChart() {
       await axios
         .get('/db.json')
         .then(response => {
-          const newFormat = response.data.report.daily.map(
-            (data: IDailyAdStatus) => {
-              return {
-                ...data,
-                date: format(parseISO(data.date), 'MM월 dd일'),
-              };
-            },
-          );
+          const newFormat = response.data.daily.map((data: IDailyAdStatus) => {
+            return {
+              ...data,
+              date: format(parseISO(data.date), 'MM월 dd일'),
+            };
+          });
           setDbData(newFormat);
         })
         .catch((error: Error) => console.log(error));

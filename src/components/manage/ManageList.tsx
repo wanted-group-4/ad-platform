@@ -3,7 +3,7 @@ import {useMutation, useQuery, useQueryClient} from 'react-query';
 import styled from '@emotion/styled';
 import {useSetRecoilState} from 'recoil';
 
-import {adSelectData} from '@src/utils';
+import {adSelectData} from '@utils/.';
 import {adDelete, getAdsList} from '@src/api/queries';
 import ManageItem from '@src/components/manage/ManageItem';
 import {IAds} from '@type/models/management';

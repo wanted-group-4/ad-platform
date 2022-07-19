@@ -1,10 +1,15 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import previousMonday from 'date-fns/previousMonday';
+import format from 'date-fns/format';
 // import {IDailyAdStatus} from '@src/types/models/advertise';
 
 //  IDailyAdStatus[]
-function Card({info}: any) {
+function Card({info, type}: any) {
   console.log(info);
+  const previousDay = previousMonday(new Date(type));
+  const changeType = format(new Date(previousDay), 'yyyy-MM-dd');
+  console.log(changeType);
 
   // roas, 전환수(conv),
   function calculate(category: any) {

@@ -54,6 +54,7 @@ export default function Board() {
     }
     return result;
   }
+  const {isLoading} = queryResult[0];
 
   useEffect(() => {
     if (queryResult[0].isLoading || queryResult[0].isError || dateList.length)
@@ -63,32 +64,34 @@ export default function Board() {
 
   return (
     <BoardContainer>
-      <DashBoard>
-        <Title DashBoard>대시보드</Title>
-        <DateSelection>
-          <DropDown handleChange={handleChange} optionData={dateList} />
-        </DateSelection>
-      </DashBoard>
-      <IntegrationAd>
-        <Title>통합 광고 현황</Title>
-        <DataBox>
-          <DataCard>
-            <Card info={queryResult[1].data} type={type} />
-          </DataCard>
-          <GraphChart>차트 컴포넌트</GraphChart>
-        </DataBox>
-      </IntegrationAd>
-      <CurrentStateOfAd>
-        <Title>매체 현황</Title>
-        <DataBox>
-          <BarChart>
-            <Bar queryResult={queryResult[2]} />
-          </BarChart>
-          <Diagram>
-            <Table queryResult={queryResult[2]} />
-          </Diagram>
-        </DataBox>
-      </CurrentStateOfAd>
+      <div className={isLoading ? 'disabled' : ''}>
+        <DashBoard>
+          <Title DashBoard>대시보드</Title>
+          <DateSelection>
+            <DropDown handleChange={handleChange} optionData={dateList} />
+          </DateSelection>
+        </DashBoard>
+        <IntegrationAd>
+          <Title>통합 광고 현황</Title>
+          <DataBox>
+            <DataCard>
+              <Card info={queryResult[1].data} type={type} />
+            </DataCard>
+            <GraphChart>차트 컴포넌트</GraphChart>
+          </DataBox>
+        </IntegrationAd>
+        <CurrentStateOfAd>
+          <Title>매체 현황</Title>
+          <DataBox>
+            <BarChart>
+              <Bar queryResult={queryResult[2]} />
+            </BarChart>
+            <Diagram>
+              <Table queryResult={queryResult[2]} />
+            </Diagram>
+          </DataBox>
+        </CurrentStateOfAd>
+      </div>
     </BoardContainer>
   );
 }
@@ -98,6 +101,9 @@ const BoardContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 170vh;
+  .disabled {
+    pointer-events: none;
+  }
 `;
 const DashBoard = styled.div`
   display: flex;

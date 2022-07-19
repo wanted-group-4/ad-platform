@@ -8,6 +8,7 @@ export const chartSelectTypeList = [
   ['cvr', 'cvr'],
   ['cpc', 'cpc'],
   ['cpa', 'cpa'],
+  ['roas', 'roas'],
 ];
 
 export default chartSelectTypeList;

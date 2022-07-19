@@ -39,7 +39,7 @@ export default function LineChart({chartData, isLoading}: IProps) {
     setDataKey2(event?.target.value);
   };
 
-  const formatXAxis = (tickItem: any) => {
+  const formatXAxis = (tickItem: string) => {
     return format(parseISO(tickItem), 'MM월 dd일');
   };
 

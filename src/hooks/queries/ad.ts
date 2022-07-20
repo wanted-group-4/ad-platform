@@ -16,21 +16,21 @@ export const useAddMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(adCreate, {
-    onSuccess: () => queryClient.invalidateQueries('abs'),
+    onSuccess: () => queryClient.invalidateQueries('ads'),
   });
 };
 
 export const useUpdateMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(adUpdate, {
-    onSuccess: () => queryClient.invalidateQueries('abs'),
+    onSuccess: () => queryClient.invalidateQueries('ads'),
   });
 };
 
 export const useDeleteMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(adDelete, {
-    onSuccess: () => queryClient.invalidateQueries('abs'),
+    onSuccess: () => queryClient.invalidateQueries('ads'),
   });
 };
 

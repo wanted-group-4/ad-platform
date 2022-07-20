@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import DropDown from '@components/dropdown/DropDown';
 import {SelectChangeEvent} from '@mui/material';
 import {IDailyAdStatus} from '@type/models/advertise';
+import Loading from '@src/components/common/Loading';
 
 interface IProps {
   chartData: IDailyAdStatus[];
@@ -55,7 +56,7 @@ export default function LineChart({chartData, isLoading}: IProps) {
     return format(parseISO(tickItem), 'MM월 dd일');
   };
 
-  if (isLoading) return <div>로딩중...</div>;
+  if (isLoading) return <Loading />;
 
   return (
     <Container>

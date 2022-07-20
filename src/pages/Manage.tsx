@@ -34,6 +34,7 @@ export default function Manage() {
           <DropDown
             handleChange={handleTypeChange}
             optionData={adSelectTypeList}
+            defaultValue="all"
           />
           <Button variant="contained" onClick={handleModalChange}>
             광고만들기

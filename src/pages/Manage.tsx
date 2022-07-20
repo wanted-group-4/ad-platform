@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import {Button, SelectChangeEvent} from '@mui/material';
 import styled from '@emotion/styled';
+import {useRecoilValue} from 'recoil';
 
 import {ManageList} from '@components/manage';
 import DropDown from '@components/dropdown/DropDown';
-import {adSelectTypeList} from '@utils/.';
 import {AdModal} from '@components/manage/ad';
-import {useRecoilValue} from 'recoil';
 import currentIDState from '@api/atom';
 
 export default function Manage() {
@@ -14,6 +13,12 @@ export default function Manage() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const currentID = useRecoilValue(currentIDState);
+
+  const adSelectTypeList = [
+    ['all', '전체광고'],
+    ['active', '진행광고'],
+    ['ended', '종료된광고'],
+  ];
 
   const handleTypeChange = (event: SelectChangeEvent<string>) => {
     setType(event.target.value);

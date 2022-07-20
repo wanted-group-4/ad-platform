@@ -9,7 +9,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import {IMediaStatus} from '@src/types/models/mediaStatus';
+import {IMediaStatus} from '@type/models/mediaStatus';
 
 interface BarChartProps {
   queryResult: any;
@@ -23,7 +23,6 @@ export default function BarChart({queryResult}: BarChartProps) {
     facebook: {cost: 0, convValue: 0, imp: 0, cvr: 0, click: 0},
     kakao: {cost: 0, convValue: 0, imp: 0, cvr: 0, click: 0},
   });
-  console.log(queryResult);
   // 광고비:cost / 매출:sale / 노출수:imp / 클릭수: click / 전환수:cvr
   React.useEffect(() => {
     if (queryResult.isLoading === true) return;

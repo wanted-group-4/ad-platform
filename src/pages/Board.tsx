@@ -71,13 +71,11 @@ export default function Board() {
       <DashBoard>
         <Title DashBoard>대시보드</Title>
         <DateSelection>
-          {dateList && (
-            <DropDown
-              handleChange={handleChange}
-              optionData={dateList}
-              defaultValue="0"
-            />
-          )}
+          <DropDown
+            handleChange={handleChange}
+            optionData={dateList}
+            defaultValue="0"
+          />
         </DateSelection>
       </DashBoard>
       <IntegrationAd>

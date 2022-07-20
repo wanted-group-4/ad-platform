@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-expressions */
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 // import {IDailyAdStatus} from '@src/types/models/advertise';
 import {useQueries} from 'react-query';
@@ -34,69 +33,52 @@ function Card({info, type}: any) {
       result = Number(result);
       return `${result}만`;
     }
-    return Number(result);
+    return result;
   }
 
-  const [store, setStore] = useState<any>([]);
-  useEffect(() => {
-    if (data && info) {
-      const preWeeklyInfo: any = [
-        calculate(data, 'roas'),
-        calculateSum(data, 'cost'),
-        calculateSum(data, 'imp'),
-        calculateSum(data, 'click'),
-        calculateSum(data, 'conv'),
-        calculateSum(data, 'convValue'),
-      ];
-      const weeklyInfo: any = [
-        calculate(info, 'roas'),
-        calculateSum(info, 'cost'),
-        calculateSum(info, 'imp'),
-        calculateSum(info, 'click'),
-        calculateSum(info, 'conv'),
-        calculateSum(info, 'convValue'),
-      ];
-      // [-65, 34086, 48631, -1033, -126, -2123230]
-      const differenceValue: number[] = [];
-      for (let i = 0; i < preWeeklyInfo.length; i += 1) {
-        differenceValue.push(weeklyInfo[i] - preWeeklyInfo[i]);
-      }
-      setStore(differenceValue);
-    }
-  }, [type]);
   return (
     <Container>
-      {info && data !== undefined && store !== [] ? (
+      {info && data !== undefined ? (
         <>
           <Div>
             <Title>ROAS</Title>
             <Content>{calculate(info, 'roas')}%</Content>
-            <div>{store[0]}</div>
+            <div>{calculate(data, 'roas') - calculate(info, 'roas')}%</div>
           </Div>
           <Div>
             <Title>광고비</Title>
             <Content>{calculateSum(info, 'cost', 0)} 원</Content>
-            <div>{store[1]}</div>
+            <div>
+              {calculateSum(data, 'cost') - calculateSum(info, 'cost')}원
+            </div>
           </Div>
           <Div>
             <Title>노출 수</Title>
             <Content>{calculateSum(info, 'imp', 0)} 회</Content>
-            <div>{store[2]}</div>
+            <div>{calculateSum(data, 'imp') - calculateSum(info, 'imp')}회</div>
           </Div>
           <Div>
             <Title>클릭 수</Title>
             <Content>{calculateSum(info, 'click', 0)} 회</Content>
-            <div>{store[3]}</div>
+            <div>
+              {calculateSum(data, 'click') - calculateSum(info, 'click')}회
+            </div>
           </Div>
           <Div>
             <Title>전환 수</Title>
             <Content>{calculateSum(info, 'conv', 0)}회</Content>
-            <div>{store[4]}</div>
+            <div>
+              {calculateSum(data, 'conv') - calculateSum(info, 'conv')}회
+            </div>
           </Div>
           <Div>
             <Title>매출</Title>
             <Content>{calculateSum(info, 'convValue', 0)} 원</Content>
-            <div>{store[5]}</div>
+            <div>
+              {calculateSum(data, 'convValue') -
+                calculateSum(info, 'convValue')}
+              원
+            </div>
           </Div>
         </>
       ) : null}

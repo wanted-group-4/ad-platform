@@ -1,69 +1,110 @@
-import React from 'react';
+/* eslint-disable no-unused-expressions */
+import React, {useEffect, useState} from 'react';
 import styled from '@emotion/styled';
 // import {IDailyAdStatus} from '@src/types/models/advertise';
+import {useQueries} from 'react-query';
+import {getReport} from '@src/api/queries';
 
 //  IDailyAdStatus[]
-function Card({info}: any) {
-  console.log(info);
+function Card({info, type}: any) {
+  const queryResult = useQueries([
+    {
+      queryKey: ['report', type],
+      queryFn: () => getReport(new Date(type)),
+    },
+  ]);
 
-  // roas, 전환수(conv),
-  function calculate(category: any) {
+  const {data} = queryResult[0];
+
+  // roas,
+  function calculate(weeklyInfo: any, category: any) {
     const result =
-      info.reduce((acc: number, cur: any) => acc + cur[category], 0) / 7;
+      weeklyInfo.reduce((acc: number, cur: any) => acc + cur[category], 0) / 7;
     return parseInt(String(result), 10);
   }
-  // 전환수(conv), 광고비(cost) 클릭수(click), 노출수(imp), 매출(cost)
-  function calculateSum(category: any) {
-    let result = info.reduce((acc: number, cur: any) => acc + cur[category], 0);
+  // 전환수(conv), 광고비(cost) 클릭수(click), 노출수(imp), 매출(convValue)
+  function calculateSum(weeklyInfo: any, category: any, method?: number) {
+    let result = weeklyInfo.reduce(
+      (acc: number, cur: any) => acc + cur[category],
+      0,
+    );
     result = String(result);
-    if (result.length > 4) {
+    if (result.length > 4 && method === 0) {
       result = result.slice(0, result.length - 4);
+      result = Number(result);
       return `${result}만`;
     }
-    return result;
+    return Number(result);
   }
 
+  const [store, setStore] = useState<any>([]);
+  useEffect(() => {
+    if (data && info) {
+      const preWeeklyInfo: any = [
+        calculate(data, 'roas'),
+        calculateSum(data, 'cost'),
+        calculateSum(data, 'imp'),
+        calculateSum(data, 'click'),
+        calculateSum(data, 'conv'),
+        calculateSum(data, 'convValue'),
+      ];
+      const weeklyInfo: any = [
+        calculate(info, 'roas'),
+        calculateSum(info, 'cost'),
+        calculateSum(info, 'imp'),
+        calculateSum(info, 'click'),
+        calculateSum(info, 'conv'),
+        calculateSum(info, 'convValue'),
+      ];
+      // [-65, 34086, 48631, -1033, -126, -2123230]
+      const differenceValue: number[] = [];
+      for (let i = 0; i < preWeeklyInfo.length; i += 1) {
+        differenceValue.push(weeklyInfo[i] - preWeeklyInfo[i]);
+      }
+      setStore(differenceValue);
+    }
+  }, [type]);
   return (
     <Container>
-      {info !== undefined ? (
+      {info && data !== undefined && store !== [] ? (
         <>
           <Div>
             <Title>ROAS</Title>
-            <Content>{calculate('roas')}%</Content>
-            <div>18%</div>
+            <Content>{calculate(info, 'roas')}%</Content>
+            <div>{store[0]}</div>
           </Div>
           <Div>
             <Title>광고비</Title>
-            <Content>{calculateSum('cost')} 원</Content>
-            <div>18%</div>
+            <Content>{calculateSum(info, 'cost', 0)} 원</Content>
+            <div>{store[1]}</div>
           </Div>
           <Div>
             <Title>노출 수</Title>
-            <Content>{calculateSum('imp')} 회</Content>
-            <div>18%</div>
+            <Content>{calculateSum(info, 'imp', 0)} 회</Content>
+            <div>{store[2]}</div>
           </Div>
           <Div>
             <Title>클릭 수</Title>
-            <Content>{calculateSum('click')} 회</Content>
-            <div>18%</div>
+            <Content>{calculateSum(info, 'click', 0)} 회</Content>
+            <div>{store[3]}</div>
           </Div>
           <Div>
             <Title>전환 수</Title>
-            <Content>{calculateSum('conv')}회</Content>
-            <div>18%</div>
+            <Content>{calculateSum(info, 'conv', 0)}회</Content>
+            <div>{store[4]}</div>
           </Div>
           <Div>
             <Title>매출</Title>
-            <Content>{calculateSum('cost')} 원</Content>
-            <div>18%</div>
+            <Content>{calculateSum(info, 'convValue', 0)} 원</Content>
+            <div>{store[5]}</div>
           </Div>
         </>
       ) : null}
     </Container>
   );
 }
-
 export default Card;
+
 const Container = styled.div`
   display: flex;
   justify-content: space-between;

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React, {useEffect, useState} from 'react';
 import styled from '@emotion/styled';
+
 // import {IDailyAdStatus} from '@src/types/models/advertise';
 import {useQueries} from 'react-query';
 import {getReport} from '@src/api/queries';

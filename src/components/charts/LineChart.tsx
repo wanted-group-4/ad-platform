@@ -4,7 +4,6 @@ import {format, parseISO} from 'date-fns';
 import styled from '@emotion/styled';
 import DropDown from '@components/dropdown/DropDown';
 import {SelectChangeEvent} from '@mui/material';
-import chartSelectTypeList from '@utils/chartSelectTypeList';
 import {IDailyAdStatus} from '@type/models/advertise';
 
 interface IProps {
@@ -15,6 +14,19 @@ interface IProps {
 export default function LineChart({chartData, isLoading}: IProps) {
   const [dataKey1, setDataKey] = useState<string>('roas');
   const [dataKey2, setDataKey2] = useState<string>('click');
+
+  const SelectTypeList = [
+    ['imp', 'imp'],
+    ['click', 'click'],
+    ['cost', 'cost'],
+    ['conv', 'conv'],
+    ['convValue', 'convValue'],
+    ['ctr', 'ctr'],
+    ['cvr', 'cvr'],
+    ['cpc', 'cpc'],
+    ['cpa', 'cpa'],
+    ['roas', 'roas'],
+  ];
 
   function getLinebyComparingeMax(line1: string, line2: string) {
     const line1Data = chartData
@@ -50,11 +62,13 @@ export default function LineChart({chartData, isLoading}: IProps) {
       <DropwDownContainer>
         <DropDown
           handleChange={handleChange}
-          optionData={chartSelectTypeList}
+          optionData={SelectTypeList}
+          defaultValue="roas"
         />
         <DropDown
           handleChange={handleChange2}
-          optionData={chartSelectTypeList}
+          optionData={SelectTypeList}
+          defaultValue="click"
         />
       </DropwDownContainer>
       <Charts.ResponsiveContainer width="100%" height="100%">

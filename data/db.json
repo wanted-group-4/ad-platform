@@ -5185,7 +5185,7 @@
     {
       "id": 1658176346481,
       "adType": "web",
-      "status": "active",
+      "status": "ended",
       "title": "기획광고",
       "startDate": "2022-02-01 00:00:00",
       "endDate": "2022-07-01 00:00:00",
@@ -5199,7 +5199,7 @@
     {
       "id": 1658176672483,
       "adType": "web",
-      "status": "ended",
+      "status": "active",
       "title": "신규광고",
       "startDate": "2022-07-01 00:00:00",
       "endDate": "2022-08-06 00:00:00",
@@ -5213,7 +5213,7 @@
     {
       "id": 1658177395404,
       "adType": "web",
-      "status": "active",
+      "status": "ended",
       "title": "기획광고",
       "startDate": "2022-07-01 00:00:00",
       "endDate": "2022-07-17 00:00:00",
@@ -5227,7 +5227,7 @@
     {
       "id": 1658199160143,
       "adType": "app",
-      "status": "ended",
+      "status": "active",
       "title": "기획광고",
       "startDate": "2022-07-01 00:00:00",
       "endDate": "2023-01-01 00:00:00",

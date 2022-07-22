@@ -63,7 +63,7 @@ const createFormData = (data: IAds | null, formData: IFormInput): IAds => {
       : null;
 
   const diff = (date1: Date, date2: Date): string =>
-    differenceInDays(date1, date2) < 0 ? 'ended' : 'active';
+    differenceInDays(date1, date2) > 0 ? 'ended' : 'active';
 
   const curStatus =
     formData.endDate === null
